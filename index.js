@@ -35,9 +35,9 @@ var server = app.listen(port, host, function(){
     let today = new Date();
     console.log('To day is: ' + today);
     // autoUpdate.updateCurrency();
-    // setInterval(() => {
-    //     autoUpdate.updateCurrency();
-    // }, 86400000);
+    setInterval(() => {
+        autoUpdate.updateCurrency();
+    }, 86400000);
 });
 
 var io = socketio(server);

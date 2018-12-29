@@ -37,7 +37,8 @@ router.post('/sendMail', jsonParser, (req, res) => {
             if (err) {
                 res.json({
                     "mess": "fail",
-                    "error": err
+                    "error": err,
+                    "postData": req.body
                 });
                 console.log(err);
             } else {
