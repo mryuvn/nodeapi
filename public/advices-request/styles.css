@@ -1,0 +1,8 @@
+.advice-form md-radio-group {
+    overflow: hidden;
+}
+.advice-form md-radio-button {
+    float: left;
+    margin-right: 15px;
+    font-weight: 600;
+}

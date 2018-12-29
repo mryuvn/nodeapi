@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" ng-controller="MyController">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Advices Request</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/advices-request/styles.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/angular/angular-material.min.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/plugins/iCheck/all.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/plugins/timepicker/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/css/AdminLTE.css">
+    <link rel="stylesheet" href="http://localhost/vflservices.com/public/css/skins/_all-skins.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{appTitle}}</h1>
+
+        <div class="advice-form">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Họ tên</label>
+                        <input type="text" ng-model="name" class="form-control" placeholder="Nhập họ tên của bạn">
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <select ng-model="location" class="select2 form-control" data-placeholder="Chọn Tỉnh Thành/Quốc gia" style="width: 100%;">
+                            <option value=""></option>
+                            <option ng-repeat="location in locationArr | orderBy:'orderkey'" value="{{location.value}}">{{location.title}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Điện thoại</label>
+                        <input type="number" ng-model="tel" class="form-control" placeholder="Nhập số điện thoại của bạn">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" ng-model="email" class="form-control" placeholder="Nhập Email của bạn">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Tiêu đề câu hỏi</label>
+                        <input type="text" ng-model="title" class="form-control" placeholder="Nhập tiêu đề">
+                    </div>
+                    <div class="form-group">
+                        <label>Nội dung</label>
+                        <textarea ng-model="content" class="form-control" style="height: 176px;" placeholder="Nhập nội dung yêu cầu của bạn..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Hình thức trả lời</label>
+                        <div class="radio-group">
+                            <md-radio-group ng-model="radioData.replyMethod">
+                                <md-radio-button value="sendmail" class="md-primary"> Gửi lại Email </md-radio-button>
+                                <md-radio-button value="callback"> Gọi lại </md-radio-button>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg" style="width: 140px;" ng-click="sendRequest()">Gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="http://localhost/vflservices.com/public/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/js/socket.io.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-1.5.min.js"></script>
+
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-sanitize.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/select.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-animate.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-aria.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-messages.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-material.min.js"></script>
+    <script type="text/javascript" src="http://localhost/vflservices.com/public/angular/angular-route.min.js"></script>
+
+    <script src="/static/advices-request/angular-controller.js"></script>
+
+    <script src="http://localhost/vflservices.com/public/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="http://localhost/vflservices.com/public/plugins/iCheck/icheck.min.js"></script>
+    <!-- <script src="http://localhost/vflservices.com/public/js/adminlte.js"></script> -->
+    <script src="http://localhost/vflservices.com/public/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="http://localhost/vflservices.com/public/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="http://localhost/vflservices.com/public/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script>
+        //Form
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            //Datemask dd/mm/yyyy
+            $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+            //Datemask2 mm/dd/yyyy
+            $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+            //Money Euro
+            $('[data-mask]').inputmask()
+            //Date range picker
+            $('#reservation').daterangepicker()
+            //Date range picker with time picker
+            $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+            //Date range as a button
+            $('#daterange-btn').daterangepicker(
+                {
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment()
+                },
+                function (start, end) {
+                    $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+                }
+            )
+            //iCheck for checkbox and radio inputs
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            })
+            //Red color scheme for iCheck
+            $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+                checkboxClass: 'icheckbox_minimal-red',
+                radioClass: 'iradio_minimal-red'
+            })
+            //Flat red color scheme for iCheck
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'iradio_flat-green'
+            })
+            //Timepicker
+            $('.timepicker').timepicker({
+                showInputs: false
+            })
+        })
+            //--End Form
+    </script>
+    <!--/End JS -->
+</body>
+
+</html>
